@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
-function App() {
+const Child1 = () => {
+  const [params, setSearchParams] = useSearchParams();
+  const handleClick = () => {
+    setSearchParams("name", "John");
+  };
+  console.log("child1 rendered");
+  return <button onClick={handleClick}>child1</button>;
+};
+
+const Child2 = () => {
+  const navigate = useNavigate();
+  console.log("child2 rendered");
+  return <button>Child2</button>;
+};
+
+const Home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Child1 />
+      <Child2 />
     </div>
   );
+};
+
+const routes = [
+  {
+    path: "/",
+    element: <Home />,
+  },
+];
+
+const router = createBrowserRouter(routes);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
