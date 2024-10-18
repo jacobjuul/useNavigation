@@ -13,12 +13,27 @@ const Child1 = () => {
   console.log("child1 rendered");
   return <button onClick={handleClick}>child1</button>;
 };
+const Child2 = React.memo(() => {
+  const navigate = useNavigate(); // Keep this here if navigation is actually needed
+  
+  const handleNavigation = useCallback(() => {
+    navigate("/some-route");
+  }, [navigate]); // Memoize this to avoid function recreation
 
-const Child2 = () => {
-  const navigate = useNavigate();
   console.log("child2 rendered");
-  return <button>Child2</button>;
-};
+
+  return (
+    <button onClick={handleNavigation}>
+      Child2
+    </button>
+  );
+});
+
+// const Child2 = () => {
+//   const navigate = useNavigate();
+//   console.log("child2 rendered");
+//   return <button>Child2</button>;
+// };
 
 const Home = () => {
   return (
