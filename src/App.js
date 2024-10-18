@@ -4,21 +4,32 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import React, { useCallback } from "react";
 
+// Child1 updates the search params
 const Child1 = () => {
   const [params, setSearchParams] = useSearchParams();
+
   const handleClick = () => {
-    setSearchParams("name", "John");
+    setSearchParams({ name: "John" }); // Properly set the search param as an object
   };
+
   console.log("child1 rendered");
-  return <button onClick={handleClick}>child1</button>;
+  return <button onClick={handleClick}>Child1</button>;
 };
 
-const Child2 = () => {
-  const navigate = useNavigate();
+// Child2 uses useNavigate but doesn't depend on search params
+const Child2 = React.memo(() => {
+  const navigate = useNavigate(); // Keep this here if navigation is actually needed
+
+  const handleNavigation = useCallback(() => {
+    navigate("/some-route");
+  }, [navigate]); // Memoize this to avoid function recreation
+
   console.log("child2 rendered");
-  return <button>Child2</button>;
-};
+
+  return <button onClick={handleNavigation}>Child2</button>;
+});
 
 const Home = () => {
   return (
